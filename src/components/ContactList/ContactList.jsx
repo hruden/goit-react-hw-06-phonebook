@@ -1,23 +1,17 @@
-import { useContext } from "react";
 import { ContactsBook, ContactsItem, DeletContact } from "./ContactList.styled"
 import PropTypes from 'prop-types';
-import { Context } from "stateContext/GlobalContext";
+import { useDispatch } from "react-redux";
+import { removeContact } from "redux/slice";
 
 
 export const ContactList = ({list}) => {
-    const {contacts, setContacts} = useContext(Context)
+    const dispatch = useDispatch()
 
-    const removeContact = (id) => {
-        const updatedContact = contacts.filter(
-          (contact) => contact.id !== id
-        );
-        setContacts(updatedContact)  
-      };
     return (
         <ContactsBook>
             {list.map(({id, name, number}) => 
                 <ContactsItem key={id}>{name}: {number}
-                    <DeletContact onClick={()=>removeContact(id)}>Delete</DeletContact>
+                    <DeletContact onClick={()=>dispatch(removeContact(id))}>Delete</DeletContact>
                 </ContactsItem>            
             )}
         </ContactsBook>

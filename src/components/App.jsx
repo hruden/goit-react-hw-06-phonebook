@@ -1,15 +1,16 @@
-import { useContext,} from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { Container } from './App.styled';
-import { Context } from 'stateContext/GlobalContext';
+import { useSelector } from 'react-redux';
 
 export function App () {
-  const {contacts, searchContact,} = useContext(Context)
+  // const { searchContact,} = useContext(Context)
+  const {contacts, filter} = useSelector(state=> state.contactsBook)
+  // const {filter} = useSelector(state=>state.filter)
   
   const findContact = () =>{
-    return contacts.filter((contact) => contact.name.toLocaleLowerCase().includes(searchContact)
+    return contacts.filter((contact) => contact.name.toLocaleLowerCase().includes(filter)
   )}
 
     return (

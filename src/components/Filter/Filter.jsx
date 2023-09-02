@@ -1,19 +1,23 @@
 import PropTypes from 'prop-types';
-import { useContext } from 'react';
-import { Context } from 'stateContext/GlobalContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { filterContacts } from 'redux/slice';
 export const Filter = () => {
-  const { searchContact, setSearchContact } = useContext(Context);
+  // const { searchContact, setSearchContact } = useContext(Context);
+  const {filter} = useSelector(state=>state.contactsBook)
+  const dispatch = useDispatch();
+
+
 
   const handleFind = ({ target }) => {
     const normalizedValue = target.value.trim().toLocaleLowerCase();
-    setSearchContact(normalizedValue);
+    dispatch(filterContacts(normalizedValue));
   };
   return (
     <>
       <p>Find contacts by name</p>
       <input
         onChange={handleFind}
-        value={searchContact}
+        value={filter}
         name="searchContact"
         type="text"
         placeholder="Search contact..."
