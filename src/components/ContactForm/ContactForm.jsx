@@ -5,14 +5,17 @@ import {
   InputFoneBook,
 } from './ContactForm.styled';
 import PropTypes from 'prop-types';
-import { useDispatch} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import { addContact } from 'redux/slice';
+import { nanoid } from 'nanoid';
+
 
 export function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   // const {contacts, setContacts} = useContext(Context)
-  // const { contacts } = useSelector(state => state.contacts);
+  const {contacts} = useSelector(state=> state.contactsBook)
+
   const dispatch = useDispatch();
 
   const handChange = ({ target }) => {
@@ -27,25 +30,20 @@ export function ContactForm() {
         return;
     }
   };
-  // const createContact = (data) => {
-  //   const newContact = {
-  //     ...data,
-  //     id: nanoid()
-  //     }
-  //     const nameCheck = contacts.find(({name})=> name === data.name)
-  //     if(nameCheck){
-  //       return alert(`${data.name} is already in contacts`)
-  //     }
-  //   setContacts(s=>[...s, (newContact)])
-  // }
-
   const handleSubmit = e => {
     e.preventDefault();
+    const newContact = {
+      name: name,
+      number: number,
+      id: nanoid()
+      }
+      const nameCheck = contacts.find(({name})=> name === newContact.name)
+      if(nameCheck){
+        alert(`${newContact.name} is already in contacts`)
+        return reset()
+      }
     dispatch(
-      addContact({
-        name: name,
-        number: number,
-      })
+      addContact(newContact)
     );
     reset();
   };
